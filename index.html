@@ -132,8 +132,8 @@
             <input type="submit" value="Analyze Case">
         </form>
 
-        
-        <button id="history-button" type="button" onclick="window.location.href = 'history.html';" >History Case</button>
+
+        <button id="history-button" type="button" onclick="window.location.href = 'history.html';">History Case</button>
 
         <!-- Display analysis results dynamically -->
         <div id="analysis-results" style="display:none;">
@@ -250,32 +250,32 @@
             history.push({ description, results });
         });
 
-        document.getElementById('history-button').addEventListener('click', function () {
-            const historyContainer = document.getElementById('history-container');
-            const historyList = document.getElementById('history-list');
-            historyList.innerHTML = '';
+        // document.getElementById('history-button').addEventListener('click', function () {
+        //     const historyContainer = document.getElementById('history-container');
+        //     const historyList = document.getElementById('history-list');
+        //     historyList.innerHTML = '';
 
-            if (history.length === 0) {
-                const li = document.createElement('li');
-                li.textContent = "No cases have been analyzed yet.";
-                historyList.appendChild(li);
-            } else {
-                history.forEach((entry, index) => {
-                    const li = document.createElement('li');
-                    li.innerHTML = `
-                        <strong>Case ${index + 1}</strong><br>
-                        <em>Description:</em> ${entry.description}<br>
-                        <em>Status:</em> ${entry.results.status}<br>
-                        <em>Observations:</em> ${entry.results.observations.join(', ')}<br>
-                        <em>Leads:</em> ${entry.results.leads.map(lead => lead.Lead).join(', ')}<br>
-                        <em>Next Steps:</em> ${entry.results.next_steps.join(', ')}
-                    `;
-                    historyList.appendChild(li);
-                });
-            }
+        //     if (history.length === 0) {
+        //         const li = document.createElement('li');
+        //         li.textContent = "No cases have been analyzed yet.";
+        //         historyList.appendChild(li);
+        //     } else {
+        //         history.forEach((entry, index) => {
+        //             const li = document.createElement('li');
+        //             li.innerHTML = `
+        //                 <strong>Case ${index + 1}</strong><br>
+        //                 <em>Description:</em> ${entry.description}<br>
+        //                 <em>Status:</em> ${entry.results.status}<br>
+        //                 <em>Observations:</em> ${entry.results.observations.join(', ')}<br>
+        //                 <em>Leads:</em> ${entry.results.leads.map(lead => lead.Lead).join(', ')}<br>
+        //                 <em>Next Steps:</em> ${entry.results.next_steps.join(', ')}
+        //             `;
+        //             historyList.appendChild(li);
+        //         });
+        //     }
 
-            historyContainer.style.display = 'block';
-        });
+        //     historyContainer.style.display = 'block';
+        // });
     </script>
 </body>
 
