@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Case Analysis</title>
-   
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro&family=Maven+Pro:wght@400..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro&family=Maven+Pro:wght@400..900&display=swap"
+        rel="stylesheet">
     <style>
         body {
             font-family: 'Maven Pro', sans-serif;
@@ -18,16 +20,15 @@
             color: #333;
             text-align: center;
         }
-        .cntnt {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 2;
- 
-}
 
+        .cntnt {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            z-index: 2;
+        }
 
         h1 {
             background-color: #34b3ea6d;
@@ -59,7 +60,8 @@
             font-family: 'Anonymous Pro', monospace;
         }
 
-        input[type="submit"] {
+        input[type="submit"],
+        button {
             background-color: #4CAF50;
             color: white;
             border: none;
@@ -67,13 +69,16 @@
             cursor: pointer;
             border-radius: 4px;
             font-size: 16px;
+            margin: 10px;
         }
 
-        input[type="submit"]:hover {
+        input[type="submit"]:hover,
+        button:hover {
             background-color: #45a049;
         }
 
-        #analysis-results {
+        #analysis-results,
+        #history-container {
             margin: 20px auto;
             padding: 20px;
             background: rgba(0, 0, 0, 0.256);
@@ -93,148 +98,117 @@
         ul li {
             margin-bottom: 5px;
             color: rgb(255, 255, 255);
-            overflow: hidden;
-            white-space: nowrap;
-            margin: 0 auto;
-            animation: 
-                typing 3.5s steps(40, end),
-                blink-caret .75s step-end infinite;
         }
 
-        h2, h3 {
+        h2,
+        h3 {
             color: hsl(122, 39%, 49%);
         }
 
-
-
-        /* The typing effect */
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
-}
-
-/* The typewriter cursor effect */
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: orange; }
-}
-
-
-
         video {
-    object-fit: cover;
-    position: absolute;
-    width: 100%;
-    height: 120%;
-    position: absolute;
-    z-index: 1;
-    left: 0px;
-    top: 0px;
-  }
-
+            object-fit: cover;
+            position: absolute;
+            width: 100%;
+            height: 120%;
+            position: absolute;
+            z-index: 1;
+            left: 0px;
+            top: 0px;
+        }
     </style>
 </head>
+
 <body>
-
-
     <div class="vdo">
         <video autoplay muted loop>
-          <source src="./vdo/vdo1.mp4" type="video/mp4" />
+            <source src="./vdo/vdo1.mp4" type="video/mp4" />
         </video>
-      </div>
-
-
-      <div class="cntnt">
-
-          
-          <h1>Case Analysis Tool</h1>
-          <form method="post">
-              <textarea name="description" placeholder="Enter case description here..."></textarea><br>
-              <input type="submit" value="Analyze Case">
-    </form>
-    
-    <!-- Display analysis results dynamically -->
-    <div id="analysis-results" style="display:none;">
-        <h2>Predicted Status: <span id="predicted-status"></span></h2>
-        <h3>Observations:</h3>
-        <ul id="observations-list"></ul>
-        
-        <h3>Leads:</h3>
-        <ul id="leads-list"></ul>
-        
-        <h3>Next Steps:</h3>
-        <ul id="next-steps-list"></ul>
     </div>
-</div>
-    
+
+    <div class="cntnt">
+        <h1>Case Analysis Tool</h1>
+        <form method="post">
+            <textarea name="description" placeholder="Enter case description here..."></textarea><br>
+            <input type="submit" value="Analyze Case">
+        </form>
+
+        
+        <button id="history-button" type="button" onclick="window.location.href = 'history.html';" >History Case</button>
+
+        <!-- Display analysis results dynamically -->
+        <div id="analysis-results" style="display:none;">
+            <h2>Predicted Status: <span id="predicted-status"></span></h2>
+            <h3>Observations:</h3>
+            <ul id="observations-list"></ul>
+
+            <h3>Leads:</h3>
+            <ul id="leads-list"></ul>
+
+            <h3>Next Steps:</h3>
+            <ul id="next-steps-list"></ul>
+        </div>
+
+        <!-- History container -->
+        <div id="history-container" style="display:none;">
+            <h2>History of Analyzed Cases</h2>
+            <ul id="history-list"></ul>
+        </div>
+    </div>
+
     <script>
-        // Mock function to simulate case analysis (replace with real implementation)
-
-
-
-        // function analyzeCase(description) {
-        //     return {
-        //         status: "Open",
-        //         observations: ["Observation 1", "Observation 2", "Observation 3"],
-        //         leads: [
-        //             { Lead: "Lead 1", Confidence_Score: 85, Suggested_Action: "Action 1" },
-        //             { Lead: "Lead 2", Confidence_Score: 90, Suggested_Action: "Action 2" }
-        //         ],
-        //         next_steps: ["Step 1", "Step 2"]
-        //     };
-        // }
+        const history = [];
 
         function analyzeCase(description) {
-    let status = "Open";
-    let observations = [];
-    let leads = [];
-    let next_steps = [];
+            let status = "Open";
+            let observations = [];
+            let leads = [];
+            let next_steps = [];
 
-    if (description.includes("burglary")) {
-        observations.push("Incident type identified as burglary.");
-    }
-    if (description.includes("surveillance footage")) {
-        observations.push("Evidence from surveillance footage identified.");
-    }
-    if (description.includes("black SUV")) {
-        leads.push({
-            Lead: "Black SUV seen near the crime scene.",
-            Confidence_Score: 90,
-            Suggested_Action: "Trace vehicle through nearby traffic cameras."
-        });
-    }
-    if (description.includes("fingerprints")) {
-        next_steps.push("Run partial fingerprints through criminal databases.");
-    }
-    if (description.includes("similar burglaries")) {
-        next_steps.push("Investigate connections with similar cases in nearby cities.");
-    }
+            if (description.includes("burglary")) {
+                observations.push("Incident type identified as burglary.");
+            }
+            if (description.includes("surveillance footage")) {
+                observations.push("Evidence from surveillance footage identified.");
+            }
+            if (description.includes("black SUV")) {
+                leads.push({
+                    Lead: "Black SUV seen near the crime scene.",
+                    Confidence_Score: 90,
+                    Suggested_Action: "Trace vehicle through nearby traffic cameras."
+                });
+            }
+            if (description.includes("fingerprints")) {
+                next_steps.push("Run partial fingerprints through criminal databases.");
+            }
+            if (description.includes("similar burglaries")) {
+                next_steps.push("Investigate connections with similar cases in nearby cities.");
+            }
 
-    if (observations.length === 0) {
-        observations.push("No significant observations could be made.");
-    }
+            if (observations.length === 0) {
+                observations.push("No significant observations could be made.");
+            }
 
-    if (leads.length === 0) {
-        leads.push({
-            Lead: "No strong leads identified.",
-            Confidence_Score: 50,
-            Suggested_Action: "Request more information from witnesses."
-        });
-    }
+            if (leads.length === 0) {
+                leads.push({
+                    Lead: "No strong leads identified.",
+                    Confidence_Score: 50,
+                    Suggested_Action: "Request more information from witnesses."
+                });
+            }
 
-    if (next_steps.length === 0) {
-        next_steps.push("Gather more evidence or await further information.");
-    }
+            if (next_steps.length === 0) {
+                next_steps.push("Gather more evidence or await further information.");
+            }
 
-    return {
-        status,
-        observations,
-        leads,
-        next_steps
-    };
-}
+            return {
+                status,
+                observations,
+                leads,
+                next_steps
+            };
+        }
 
-        document.querySelector('form').addEventListener('submit', function(event) {
+        document.querySelector('form').addEventListener('submit', function (event) {
             event.preventDefault();
             const description = document.querySelector('textarea').value;
             const results = analyzeCase(description);
@@ -271,7 +245,38 @@
             });
 
             document.getElementById('analysis-results').style.display = 'block';
+
+            // Save to history
+            history.push({ description, results });
+        });
+
+        document.getElementById('history-button').addEventListener('click', function () {
+            const historyContainer = document.getElementById('history-container');
+            const historyList = document.getElementById('history-list');
+            historyList.innerHTML = '';
+
+            if (history.length === 0) {
+                const li = document.createElement('li');
+                li.textContent = "No cases have been analyzed yet.";
+                historyList.appendChild(li);
+            } else {
+                history.forEach((entry, index) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <strong>Case ${index + 1}</strong><br>
+                        <em>Description:</em> ${entry.description}<br>
+                        <em>Status:</em> ${entry.results.status}<br>
+                        <em>Observations:</em> ${entry.results.observations.join(', ')}<br>
+                        <em>Leads:</em> ${entry.results.leads.map(lead => lead.Lead).join(', ')}<br>
+                        <em>Next Steps:</em> ${entry.results.next_steps.join(', ')}
+                    `;
+                    historyList.appendChild(li);
+                });
+            }
+
+            historyContainer.style.display = 'block';
         });
     </script>
 </body>
+
 </html>
